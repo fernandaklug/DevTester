@@ -3,7 +3,7 @@
     <div class="container">
       <h4 class="title is-4">Seu gerenciador digital de contatos</h4>
 
-      <div class="columns">
+      <div class="columns is-multiline">
         <div class="column is-4" v-for="contact in contactList" :key="contact.id">
           <div class="card">
             <div class="card-content">
@@ -44,27 +44,19 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      contactList: [
-        {
-          id: 1,
-          name: "Fernanda",
-          number: "11 999999999",
-          description: "Solicitar consultoria em DevOps",
-        },
-        {
-          id: 2,
-          name: "João da Silva",
-          number: "11 999999999",
-          description: "Orçamento para aulas de inglês",
-        },
-        {
-          id: 3,
-          name: "Maria da Silva",
-          number: "11 999999999",
-          description: "Orçamento para aulas de francês",
-        },
-      ],
+     contactList: [],
     };
   },
+  methods: {
+    list() {
+      window.axios.get('/contacts').then(async (res) => {
+        this.contactList = await res.data;
+      })
+    }
+  },
+  mounted() {
+    this.list();
+  }
 };
+
 </script>

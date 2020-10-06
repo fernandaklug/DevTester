@@ -3,7 +3,7 @@
 const Hapi = require('@hapi/hapi');
 const mongoose = require('mongoose');
 
-const mongoURL = "mongodb+srv://qaninja:qaninja@cluster0.jxp29.gcp.mongodb.net/zaplinkdb?retryWrites=true&w=majority"
+const mongoURL = "mongodb+srv://qaninja:qaninja@cluster0.k8coa.gcp.mongodb.net/zaplinkdb?retryWrites=true&w=majority"
 
 mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -19,7 +19,12 @@ const contactRoutes = require('./routes/contact.routes')
 
 const server = Hapi.server({
     port: 3000,
-    host: 'localhost'
+    host: 'localhost',
+    routes: {
+        cors: {
+            origin: ['*']
+        }
+    }
 });
 
 server.route({

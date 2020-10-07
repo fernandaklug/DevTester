@@ -3,14 +3,9 @@
     <div class="container">
       <h4 class="title is-4">Seu gerenciador digital de contatos</h4>
 
-      <button
-        class="button is-success is-medium"
-        @click="showContactAddModal = true"
-      >
-        +
-      </button>
+        <button id="addNewContact" class="button is-success is-medium" @click="showContactAddModal = true">+</button>
 
-      <div class="columns is-multiline">
+      <div class="contact-list columns is-multiline">
         <div
           class="column is-4"
           v-for="contact in contactList"
@@ -57,29 +52,22 @@
               <button type="button" class="delete" @click="showContactAddModal = false" />
             </header>
             <section class="modal-card-body">
-        <div class="field">
+        <div class="field input-name">
           <input class="input is-primary" v-model="form.name" placeholder="Nome completo" />
           <small class="has-text-danger" v-if="errorName === true">Nome é obrigatório.</small>
         </div>
-         <div class="field">
+         <div class="field input-number">
           <input class="input is-primary" v-model="form.number" placeholder="WhatsApp" />
           <small class="has-text-danger" v-if="errorNumber === true">WhatsApp é obrigatório.</small>
          </div>
-          <div class="field">
-          <textarea
-                  class="textarea is-primary"
-                  v-model="form.description"
-                  placeholder="Assunto"
-                ></textarea>
-                <small
-                  class="has-text-danger"
-                  v-if="errorDescription === true"
-                >Assunto é obrigatório.</small>
+          <div class="field text-description">
+                <textarea class="textarea is-primary" v-model="form.description" placeholder="Assunto"></textarea>
+                <small class="has-text-danger" v-if="errorDescription === true">Assunto é obrigatório.</small>
          </div>
             </section>
             <footer class="modal-card-foot">
     
-              <button type="button" class="button is-success" @click="create">Cadastrar</button>
+              <button id="saveButton" type="button" class="button is-success" @click="create">Cadastrar</button>
             </footer>
           </div>
         </form>
@@ -101,9 +89,9 @@ export default {
       errorNumber: false,
       errorDescription: false,
       form: {
-        name: "Fernanda",
-        number: "11999999999",
-        description: "Cotação de Consultoria em QA e DevOps.",
+        name: "",
+        number: "",
+        description: "",
       },
     };
   },

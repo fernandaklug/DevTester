@@ -59,13 +59,23 @@
             <section class="modal-card-body">
         <div class="field">
           <input class="input is-primary" v-model="form.name" placeholder="Nome completo" />
+          <small class="has-text-danger" v-if="errorName === true">Nome é obrigatório.</small>
         </div>
          <div class="field">
           <input class="input is-primary" v-model="form.number" placeholder="WhatsApp" />
+          <small class="has-text-danger" v-if="errorNumber === true">WhatsApp é obrigatório.</small>
          </div>
           <div class="field">
-          <textarea class="textarea is-primary" v-model="form.description" placeholder="Assunto"></textarea>
-        </div>
+          <textarea
+                  class="textarea is-primary"
+                  v-model="form.description"
+                  placeholder="Assunto"
+                ></textarea>
+                <small
+                  class="has-text-danger"
+                  v-if="errorDescription === true"
+                >Assunto é obrigatório.</small>
+         </div>
             </section>
             <footer class="modal-card-foot">
     
@@ -87,21 +97,41 @@ export default {
     return {
       contactList: [],
       showContactAddModal: false,
+      errorName: false,
+      errorNumber: false,
+      errorDescription: false,
       form: {
-        name: 'Fernanda',
-        number: '11999999999',
-        description: 'Cotação de Consultoria em QA e DevOps.'
-      }
+        name: "Fernanda",
+        number: "11999999999",
+        description: "Cotação de Consultoria em QA e DevOps.",
+      },
     };
   },
   methods: {
     create() {
-      console.log(this.form)
-      window.axios.post('/contacts', this.form).then(async (res) => {
-        await res.data;
-        this.showContactAddModal = false;
-        this.list();
-      })
+      this.errorName = false;
+      this.errorNumber = false;
+      this.errorDescription = false;
+
+      if (this.form.name === "") {
+        this.errorName = true;
+      }
+
+      if (this.form.number === "") {
+        this.errorNumber = true;
+      }
+
+      if (this.form.description === "") {
+        this.errorDescription = true;
+      }
+
+      if (this.errorName === false && this.errorNumber === false && this.errorDescription === false) {
+        window.axios.post("/contacts", this.form).then(async (res) => {
+          await res.data;
+          this.showContactAddModal = false;
+          this.list();
+        });
+      }
     },
 
     list() {

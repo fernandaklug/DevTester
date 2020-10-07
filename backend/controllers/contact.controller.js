@@ -4,6 +4,9 @@ const ContactModel = require('../models/contact.model')
 module.exports = {
     async create(request, h) {
 
+        if (request.payload === null)
+            return h.response({message: 'Not JSON'}).code(400)
+
         const contact = new ContactModel({
             name: request.payload.name,
             number: request.payload.number,
@@ -19,9 +22,13 @@ module.exports = {
         if (!contact.description)
             return h.response({ message: 'Description is required.' }).code(409)
 
-        let result = await contact.save()
-
-        return h.response(result).code(200);
+            try {
+                let result = await contact.save()
+                return h.response(result).code(200);
+            } catch (error) {
+                return h.response(error).code(500)
+            }
+    
     },
     async list(resquest, h) {
         const contacts = await ContactModel.find().exec();

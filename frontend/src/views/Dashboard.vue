@@ -58,18 +58,18 @@
             </header>
             <section class="modal-card-body">
         <div class="field">
-          <input class="input is-primary" placeholder="Nome Completo">
+          <input class="input is-primary" v-model="form.name" placeholder="Nome completo" />
         </div>
          <div class="field">
-          <input class="input is-primary" placeholder="WhatsApp">
+          <input class="input is-primary" v-model="form.number" placeholder="WhatsApp" />
          </div>
           <div class="field">
-          <textarea class="textarea is-primary" placeholder="Assunto"></textarea>
+          <textarea class="textarea is-primary" v-model="form.description" placeholder="Assunto"></textarea>
         </div>
             </section>
             <footer class="modal-card-foot">
     
-              <button class="button is-success">Cadastrar</button>
+              <button type="button" class="button is-success" @click="create">Cadastrar</button>
             </footer>
           </div>
         </form>
@@ -87,9 +87,23 @@ export default {
     return {
       contactList: [],
       showContactAddModal: false,
+      form: {
+        name: 'Fernanda',
+        number: '11999999999',
+        description: 'Cotação de Consultoria em QA e DevOps.'
+      }
     };
   },
   methods: {
+    create() {
+      console.log(this.form)
+      window.axios.post('/contacts', this.form).then(async (res) => {
+        await res.data;
+        this.showContactAddModal = false;
+        this.list();
+      })
+    },
+
     list() {
       window.axios.get("/contacts").then(async (res) => {
         this.contactList = await res.data;

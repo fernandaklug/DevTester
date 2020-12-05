@@ -8,67 +8,64 @@ describe('Cadastro de Contatos', () => {
         }
 
         describe('Quando submeto o cadastro completo', () => {
-            before(()=> {
-                cy.visit('/dashboard')
-                cy.get('#addNewContact').click()
-    
-                cy.get('.input-name input').type(contact.name)
-                cy.get('.input-number input').type(contact.number)
-                cy.get('.text-description textarea').type(contact.description)
-    
-                cy.get('#saveButton').click()
+            before(() => {
+                cy.dash()
+                cy.createContact(contact)
             })
 
             it('Deve cadastrar esse contato', () => {
-                cy.get('.contact-list').contains(contact.name)
+                cy.contactList().contains(contact.name)
             })
         })
 
         describe('Quando submeto o cadastro sem o nome', () => {
-            before(()=> {
-                cy.visit('/dashboard')
-                cy.get('#addNewContact').click()
-    
-                cy.get('.input-number input').type(contact.number)
-                cy.get('.text-description textarea').type(contact.description)
-    
-                cy.get('#saveButton').click()
+
+            let contact = {
+                number: '119999999999',
+                description: 'Solicitar orçamento para Consultoria em QA e DevOps.'
+            }
+
+            before(() => {
+                cy.dash()
+                cy.createContact(contact)
             })
 
             it('Deve deve mostrar uma notificação', () => {
-                cy.get('.input-name small').contains('Nome é obrigatório.')
+                cy.alertName().contains('Nome é obrigatório.')
             })
         })
 
         describe('Quando submeto o cadastro sem o whatsapp', () => {
-            before(()=> {
-                cy.visit('/dashboard')
-                cy.get('#addNewContact').click()
-                
-                cy.get('.input-name input').type(contact.name)
-                cy.get('.text-description textarea').type(contact.description)
+
+            let contact = {
+                name: 'Fernanda',
+                description: 'Solicitar orçamento para Consultoria em QA e DevOps.'
+            }
     
-                cy.get('#saveButton').click()
+            before(() => {
+                cy.dash()
+                cy.createContact(contact)
             })
 
             it('Deve deve mostrar uma notificação', () => {
-                cy.get('.input-number small').contains('WhatsApp é obrigatório.')
+                cy.alertNumber().contains('WhatsApp é obrigatório.')
             })
         })
 
         describe('Quando submeto o cadastro sem o assunto', () => {
-            before(()=> {
-                cy.visit('/dashboard')
-                cy.get('#addNewContact').click()
-    
-                cy.get('.input-name input').type(contact.name)
-                cy.get('.input-number input').type(contact.number)
-    
-                cy.get('#saveButton').click()
+
+            let contact = {
+                name: 'Fernanda',
+                number: '119999999999'
+            }
+
+            before(() => {
+                cy.dash()
+                cy.createContact(contact)
             })
 
             it('Deve deve mostrar uma notificação', () => {
-                cy.get('.text-description small').contains('Assunto é obrigatório.')
+                cy.alertDesc().contains('Assunto é obrigatório.')
             })
         })
 

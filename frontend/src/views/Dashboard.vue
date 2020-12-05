@@ -47,7 +47,7 @@
       </article>
 
       <div class="contact-list columns is-multiline" v-if="isLoading === false">
-        <div class="column is-4" v-for="contact in contactList" :key="contact.id">
+        <div class="column is-4" v-for="contact in contactList" :key="contact._id">
           <div class="card">
             <div class="card-content">
               <div class="media">
@@ -66,7 +66,7 @@
             </div>
             <footer class="card-footer">
               <a href="#" class="card-footer-item">Conversar</a>
-              <a href="#" class="card-footer-item">Apagar</a>
+              <a href="#" class="card-footer-item" @click="remove(contact._id)">Apagar</a>
             </footer>
           </div>
         </div>
@@ -185,6 +185,12 @@ export default {
           this.list();
         });
       }
+    },
+    remove(contactId) {
+      window.axios.delete('/contacts/' + contactId).then(async (res) => {
+        await res.data
+        this.list()
+      })
     },
     list() {
       this.isLoading = true;

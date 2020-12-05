@@ -21,7 +21,12 @@
           <div class="level-item">
             <div class="field has-addons">
               <p class="control">
-                <input class="input" type="text" v-model="searchInput" placeholder="Número do Whats" />
+                <input
+                  class="input"
+                  type="text"
+                  v-model="searchInput"
+                  placeholder="Número do Whats"
+                />
               </p>
               <p class="control">
                 <button class="button is-primary" @click="search">Buscar</button>
@@ -35,7 +40,12 @@
         <img src="../assets/loading.gif" alt="Loader" />
       </div>
 
-  
+      <article class="message is-danger" v-if="contactList.length === 0">
+        <div class="message-body">
+            Contato não encontrado :(
+        </div>
+      </article>
+
       <div class="contact-list columns is-multiline" v-if="isLoading === false">
         <div class="column is-4" v-for="contact in contactList" :key="contact.id">
           <div class="card">
@@ -126,7 +136,7 @@ export default {
       errorName: false,
       errorNumber: false,
       errorDescription: false,
-      searchInput: '',
+      searchInput: "",
       form: {
         name: "",
         number: "",
@@ -138,11 +148,13 @@ export default {
     search() {
       //console.log(this.searchInput)
       this.isLoading = true;
-      if (this.searchInput != '') {
-        this.contactList = this.contactList.filter((contact) => contact.number === this.searchInput)
+      if (this.searchInput != "") {
+        this.contactList = this.contactList.filter(
+          (contact) => contact.number === this.searchInput
+        );
         this.isLoading = false;
       } else {
-        this.list()
+        this.list();
       }
     },
     create() {

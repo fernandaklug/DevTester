@@ -32,4 +32,16 @@ describe('Busca', ()=> {
         })
     })
 
+    context('Quando busco por um contato não cadastrado', () => {
+        before(()=> {
+            cy.dash()
+            cy.searchContact('18555555555')
+            cy.get('#loader', {timeout: 5000}).should('not.visible')
+        })
+
+        it('Deve retornar mensagem de alerta', () => {
+            cy.get('.message-body').contains('Contato não encontrado :(')
+        })
+    })
+
 })

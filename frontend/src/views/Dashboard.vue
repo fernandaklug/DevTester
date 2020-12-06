@@ -66,7 +66,7 @@
             </div>
             <footer class="card-footer">
               <a href="#" class="card-footer-item">Conversar</a>
-              <a href="#" class="card-footer-item" @click="remove(contact._id)">Apagar</a>
+              <a href="#" :data-remove="contact.number" class="card-footer-item" @click="remove(contact._id)">Apagar</a>
             </footer>
           </div>
         </div>

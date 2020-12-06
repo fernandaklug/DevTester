@@ -43,6 +43,10 @@ Cypress.Commands.add("searchContact", (number) => {
     cy.get('.level-right button.is-primary').click()
 })
 
+Cypress.Commands.add('removeContact', (number) => {
+    cy.get(`[data-remove="${number}"]`).click()
+})
+
 Cypress.Commands.add("contactList", ()=> {
     return cy.get('.contact-list')
 })
